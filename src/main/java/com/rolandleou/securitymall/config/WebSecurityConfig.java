@@ -37,13 +37,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http
 		.authorizeHttpRequests()
+		.antMatchers("/loginpage").permitAll()
 		.anyRequest().authenticated() // 認證後允許拜訪
-		//.antMatchers(HttpMethod.GET ,"/products/*").authenticated()
-		//.anyRequest().permitAll()  // 完全允許拜訪
 	.and()
 		.formLogin()
-	.and()
-		.httpBasic();
+		.loginProcessingUrl("/login")
+		.loginPage("/loginpage")
+		.successForwardUrl("/")
+		.failureForwardUrl("/fail");
 		
 		
 /*		
@@ -82,7 +83,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// 登出
 		http.logout()
 			.deleteCookies("JSESSIONID")
-			.logoutSuccessUrl("/loginpage")
+			.logoutSuccessUrl("/login")
 			.logoutRequestMatcher(new AntPathRequestMatcher("/logout")); // 可以使用任何的 HTTP 方法登出
 	
 		// 異常處理
