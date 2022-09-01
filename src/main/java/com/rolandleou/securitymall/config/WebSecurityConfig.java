@@ -33,6 +33,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+
+
+		http
+		.authorizeHttpRequests()
+		.anyRequest().authenticated() // 認證後允許拜訪
+		//.antMatchers(HttpMethod.GET ,"/products/*").authenticated()
+		//.anyRequest().permitAll()  // 完全允許拜訪
+	.and()
+		.formLogin()
+	.and()
+		.httpBasic();
+		
+		
+/*		
 		// 表單提交
 		http.formLogin()
 			// loginpage.html 表單 action 內容
@@ -58,8 +72,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			// 其他指定任意角色都可以訪問
 			.antMatchers("/employeepage").hasAnyRole("manager", "employee")
 			// 其他的都要被認證
-			.anyRequest().authenticated();
-		
+			//.antMatchers("/products/{productId}").permitAll()
+			// 查詢商品權限
+			.anyRequest().authenticated()
+			;
+*/		
 		// http.csrf().disable(); // 關閉 csrf 防護
 	
 		// 登出
@@ -104,4 +121,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	
+
 }
