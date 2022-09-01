@@ -26,9 +26,6 @@ import com.rolandleou.securitymall.handle.MyAccessDeniedHandler;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	private UserDetailsService userDetailsService;
-	
-	@Autowired
 	private MyAccessDeniedHandler myAccessDeniedHandler;
 
     @Autowired
@@ -76,10 +73,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			//.accessDeniedPage("/異常處理頁面");  // 請自行撰寫
 			.accessDeniedHandler(myAccessDeniedHandler);
 		
-		// 勿忘我（remember-me）
-		http.rememberMe()
-			.userDetailsService(userDetailsService)
-			.tokenValiditySeconds(60); // 通常都會大於 session timeout 的時間	
 	}	
 	
 	// 注意！規定！要建立密碼演算的實例
