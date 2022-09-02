@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/loginpage").permitAll()
 		.antMatchers(HttpMethod.POST, "/products/**").authenticated()
         .antMatchers(HttpMethod.PUT, "/products/**").authenticated()
-        //.antMatchers(HttpMethod.DELETE, "/products/**").authenticated()
+        .antMatchers(HttpMethod.DELETE, "/products/**").authenticated()
 		//.anyRequest().permitAll() // 認證所有拜訪權限
 		.anyRequest().authenticated() // 認證後允許拜訪
 		.and()
