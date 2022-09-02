@@ -1,5 +1,7 @@
 package com.rolandleou.securitymall.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,6 +36,12 @@ public class ProductServiceImpl implements ProductService {
 	public void deleteProductById(Integer productId) {
 		productDao.deleteProductById(productId);
 		
+	}
+
+	@Override
+	public List<Product> getProducts() {
+		// TODO Auto-generated method stub
+		return productDao.getProducts();
 	}
 
 }

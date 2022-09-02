@@ -1,5 +1,7 @@
 package com.rolandleou.securitymall.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,5 +75,14 @@ public class ProductController {
 		
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
+	
+	@GetMapping("/products")
+	public ResponseEntity<List<Product>> getProducts() {
+		
+		List<Product> productList = productService.getProducts();
+		
+		return ResponseEntity.status(HttpStatus.OK).body(productList);
+	}
+	
 	
 }

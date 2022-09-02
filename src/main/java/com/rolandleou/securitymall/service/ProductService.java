@@ -1,5 +1,7 @@
 package com.rolandleou.securitymall.service;
 
+import java.util.List;
+
 import com.rolandleou.securitymall.dto.ProductRequest;
 import com.rolandleou.securitymall.model.Product;
 
@@ -12,4 +14,6 @@ public interface ProductService {
 	void updateProduct(Integer productId, ProductRequest productRequest);
 	
 	void deleteProductById(Integer productId);
+	
+	List<Product> getProducts();
 }
