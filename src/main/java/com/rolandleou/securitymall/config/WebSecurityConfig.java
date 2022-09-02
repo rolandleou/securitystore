@@ -38,47 +38,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 		.authorizeHttpRequests()
 		.antMatchers("/loginpage").permitAll()
+		.antMatchers(HttpMethod.POST, "/products/**").authenticated()
+		//.anyRequest().permitAll() // 認證所有拜訪權限
 		.anyRequest().authenticated() // 認證後允許拜訪
-	.and()
+		.and()
 		.formLogin()
 		.loginProcessingUrl("/login")
 		.loginPage("/loginpage")
 		.successForwardUrl("/")
 		.failureForwardUrl("/fail");
-		
-		
-/*		
-		// 表單提交
-		http.formLogin()
-			// loginpage.html 表單 action 內容
-			.loginProcessingUrl("/login")
-			// 自定義登入頁面
-			.loginPage("/loginpage")
-			// 登入成功之後要造訪的頁面
-			//.usernameParameter("username")///登入表單form中使用者名稱輸入框input的name名，不修改的話預設是username
-	        //.passwordParameter("password")//form中密碼輸入框input的name名，不修改的話預設是password
-			.successForwardUrl("/")  // welcome 頁面
-			// 登入失敗後要造訪的頁面
-			.failureForwardUrl("/fail");
-		
-		// 授權認證
-		http.authorizeHttpRequests()
-			// 不需要被認證的頁面：/loginpage
-			.antMatchers("/loginpage").permitAll()
-			// 權限判斷
-			// 必須要有 admin 權限才可以訪問
-			.antMatchers("/adminpage").hasAuthority("admin")
-			// 必須要有 manager 角色才可以訪問
-			.antMatchers("/managerpage").hasRole("manager")
-			// 其他指定任意角色都可以訪問
-			.antMatchers("/employeepage").hasAnyRole("manager", "employee")
-			// 其他的都要被認證
-			//.antMatchers("/products/{productId}").permitAll()
-			// 查詢商品權限
-			.anyRequest().authenticated()
-			;
-*/		
-		// http.csrf().disable(); // 關閉 csrf 防護
+	
+		http.csrf().disable(); // 關閉 csrf 防護
 	
 		// 登出
 		http.logout()
@@ -92,35 +62,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.accessDeniedHandler(myAccessDeniedHandler);
 		
 	}	
-	
-	// 注意！規定！要建立密碼演算的實例
-
-	@Bean
-	public PasswordEncoder getPasswordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
 
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
-		// 設定自定義密碼
-		// 'admin', 'abc123' 
-		// 'uuu123', 'ccc123'
-		// '123456', 'dog555'
-		// '888', 'yuyu'
-		
         String sql="SELECT username,password,enabled FROM user WHERE username=?";
         String authorsql="SELECT username,role FROM user WHERE username=?";
-       // auth.userDetailsService(userDetailsService).passwordEncoder(password());
+
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .usersByUsernameQuery(sql)
                 .authoritiesByUsernameQuery(authorsql)
-                .passwordEncoder(new BCryptPasswordEncoder());
+                .passwordEncoder(getPasswordEncoder());
         
 	}
 	
+	@Bean
+	public PasswordEncoder getPasswordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 	
 
 }

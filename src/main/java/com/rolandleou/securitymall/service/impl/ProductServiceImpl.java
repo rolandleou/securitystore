@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.rolandleou.securitymall.dao.ProductDao;
+import com.rolandleou.securitymall.dto.ProductRequest;
 import com.rolandleou.securitymall.model.Product;
 import com.rolandleou.securitymall.service.ProductService;
 
@@ -16,6 +17,11 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Product getProductById(Integer productId) {
 		return productDao.getProductById(productId);
+	}
+
+	@Override
+	public Integer createProduct(ProductRequest productRequest) {
+		return productDao.createProduct(productRequest);
 	}
 
 }
