@@ -21,6 +21,7 @@ import com.rolandleou.securitymall.dto.ProductQueryParams;
 import com.rolandleou.securitymall.dto.ProductRequest;
 import com.rolandleou.securitymall.model.Product;
 import com.rolandleou.securitymall.service.ProductService;
+import com.rolandleou.securitymall.util.Page;
 
 @RestController
 public class ProductController {
@@ -87,7 +88,12 @@ public class ProductController {
 			
 			// Sorting 排序
 			@RequestParam(defaultValue = "created_date") String orderBy,
-			@RequestParam(defaultValue = "desc") String sort
+			@RequestParam(defaultValue = "desc") String sort,
+			
+			// Pagination 分頁
+			@RequestParam(defaultValue = "10") Integer limit,
+			@RequestParam(defaultValue =  "0") Integer offset
+			
 		) {
 		
 		ProductQueryParams productQueryParams = new ProductQueryParams();
@@ -95,7 +101,8 @@ public class ProductController {
 		productQueryParams.setSearch(search);
 		productQueryParams.setOrderBy(orderBy);
 		productQueryParams.setSort(sort);
-		
+		productQueryParams.setLimit(limit);
+		productQueryParams.setOffset(offset);
 		
 		List<Product> productList = productService.getProducts(productQueryParams);
 		
