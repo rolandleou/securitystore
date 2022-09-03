@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.rolandleou.securitymall.constant.ProductCategory;
 import com.rolandleou.securitymall.dao.ProductDao;
+import com.rolandleou.securitymall.dto.ProductQueryParams;
 import com.rolandleou.securitymall.dto.ProductRequest;
 import com.rolandleou.securitymall.model.Product;
 import com.rolandleou.securitymall.service.ProductService;
@@ -40,8 +41,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<Product> getProducts(ProductCategory category, String search) {
-		return productDao.getProducts(category, search);
+	public List<Product> getProducts(ProductQueryParams productQueryParams) {
+		return productDao.getProducts(productQueryParams);
 	}
 
 }

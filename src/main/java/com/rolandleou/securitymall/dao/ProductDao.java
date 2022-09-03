@@ -3,6 +3,7 @@ package com.rolandleou.securitymall.dao;
 import java.util.List;
 
 import com.rolandleou.securitymall.constant.ProductCategory;
+import com.rolandleou.securitymall.dto.ProductQueryParams;
 import com.rolandleou.securitymall.dto.ProductRequest;
 import com.rolandleou.securitymall.model.Product;
 
@@ -16,5 +17,5 @@ public interface ProductDao {
 	
 	void deleteProductById(Integer productId);
 	
-	List<Product> getProducts(ProductCategory category, String search);
+	List<Product> getProducts(ProductQueryParams productQueryParams);
 }
