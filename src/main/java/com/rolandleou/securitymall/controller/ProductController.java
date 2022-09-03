@@ -3,6 +3,8 @@ package com.rolandleou.securitymall.controller;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +30,40 @@ public class ProductController {
 
 	@Autowired
 	private ProductService productService;
-	
+    @GetMapping("/products")
+    public ResponseEntity<Page<Product>> getProducts(
+			// filtering 查詢條件
+            @RequestParam(required = false) ProductCategory category,
+            @RequestParam(required = false) String search,
+			// Sorting 排序
+            @RequestParam(defaultValue = "created_date") String orderBy,
+            @RequestParam(defaultValue = "desc") String sort,
+			// Pagination 分頁           
+            @RequestParam(defaultValue = "5") @Max(1000) Integer limit,
+            @RequestParam(defaultValue = "0") @Min(0) Integer offset
+    ) {
+    	
+        ProductQueryParams productQueryParams = new ProductQueryParams();
+        productQueryParams.setProductCategory(category);
+        productQueryParams.setSearch(search);
+        productQueryParams.setOrderBy(orderBy);
+        productQueryParams.setSort(sort);
+        productQueryParams.setLimit(limit);
+        productQueryParams.setOffset(offset);
+        
+        List<Product> productList = productService.getProducts(productQueryParams);
+ 
+		// 取得 product 總數
+        Integer total = productService.countProduct(productQueryParams);
+        
+        Page<Product> page = new Page<>();
+        page.setLimit(limit);
+        page.setOffset(offset);
+        page.setTotal(total);
+        page.setResults(productList);
+        
+        return ResponseEntity.status(HttpStatus.OK).body(page);
+    }
 	@GetMapping("/products/{productId}")
 	public ResponseEntity<Product> getProduct(@PathVariable Integer productId) {
 		
@@ -37,13 +72,13 @@ public class ProductController {
 		if (product != null) {
 			return ResponseEntity.status(HttpStatus.OK).body(product);
 		} else {
-			return null;			
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 
 	}
 	
 	@PostMapping("/products")
-	public ResponseEntity<Product> createProduct(@RequestBody ProductRequest productRequest) {
+	public ResponseEntity<Product> createProduct(@RequestBody @Valid ProductRequest productRequest) {
 		
 		Integer productId = productService.createProduct(productRequest);
 		
@@ -79,44 +114,5 @@ public class ProductController {
 		
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
-	
-	@GetMapping("/products")
-	public ResponseEntity<Page<Product>> getProducts(
-			// filtering 查詢條件
-			@RequestParam(required = false) ProductCategory category,
-			@RequestParam(required = false) String search,
-			
-			// Sorting 排序
-			@RequestParam(defaultValue = "created_date") String orderBy,
-			@RequestParam(defaultValue = "desc") String sort,
-			
-			// Pagination 分頁
-			@RequestParam(defaultValue = "10") Integer limit,
-			@RequestParam(defaultValue =  "0") Integer offset
-			
-		) {
 		
-		ProductQueryParams productQueryParams = new ProductQueryParams();
-		productQueryParams.setCategory(category);
-		productQueryParams.setSearch(search);
-		productQueryParams.setOrderBy(orderBy);
-		productQueryParams.setSort(sort);
-		productQueryParams.setLimit(limit);
-		productQueryParams.setOffset(offset);
-		
-		List<Product> productList = productService.getProducts(productQueryParams);
-		
-		// 取得 product 總數
-		Integer total = productService.countProduct(productQueryParams);
-		
-		Page<Product> page = new Page<>();
-		page.setLimit(limit);
-		page.setOffset(offset);
-		page.setTotal(total);
-		page.setResults(productList);
-		
-		return ResponseEntity.status(HttpStatus.OK).body(page);
-	}
-	
-	
 }

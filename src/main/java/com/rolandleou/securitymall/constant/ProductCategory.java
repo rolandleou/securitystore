@@ -1,8 +1,8 @@
 package com.rolandleou.securitymall.constant;
 
 public enum ProductCategory {
-	CAR,
 	FOOD,
+	CAR,
 	TOY,
 	BOOK,
 	CLOTHES

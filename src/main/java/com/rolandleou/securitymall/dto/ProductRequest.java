@@ -31,6 +31,7 @@ public class ProductRequest {
 		this.productName = productName;
 	}
 
+
 	public ProductCategory getCategory() {
 		return category;
 	}
