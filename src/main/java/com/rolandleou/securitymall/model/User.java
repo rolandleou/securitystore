@@ -2,13 +2,17 @@ package com.rolandleou.securitymall.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rolandleou.securitymall.constant.UserRole;
 
 public class User {
 
 	private Integer userId;
 	private String userName;
+	
+	@JsonIgnore
 	private String password;
+	
 	private String email;
 	private UserRole role;
 	private Integer enabled;
