@@ -1,3 +1,4 @@
+-- product
 CREATE TABLE IF NOT EXISTS product
 (
     product_id         INT          NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -7,6 +8,19 @@ CREATE TABLE IF NOT EXISTS product
     price              INT          NOT NULL,
     stock              INT          NOT NULL,
     description        VARCHAR(1024),
+    created_date       TIMESTAMP    NOT NULL,
+    last_modified_date TIMESTAMP    NOT NULL
+    );
+    
+-- user
+CREATE TABLE IF NOT EXISTS user
+(
+    user_id         INT          NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    username       	VARCHAR(256) NOT NULL,
+    password       	VARCHAR(256) NOT NULL,
+    email          	VARCHAR(256) NOT NULL UNIQUE,
+    role			VARCHAR(30) NOT NULL,
+    enabled			BOOLEAN NOT NULL,
     created_date       TIMESTAMP    NOT NULL,
     last_modified_date TIMESTAMP    NOT NULL
     );
