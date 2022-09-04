@@ -21,8 +21,9 @@ public class SecurityMain {
 		boolean matches2 = pe.matches("1234", encode2);
 		System.out.println(matches2);	
 		
-		// $2a$10$4LZ9KZdNo2xnILoKpTRLQu9sidpi8pj4TJL0ofzFsJMFTal4JvD8y
-		
+		String ecode3 = "$2a$10$YAneWEhs/xnxrSXCYDtm4ubFZqLFBsZK2psVkZlCfYHU9ZeBmHrzC";
+		boolean matches3 = pe.matches("1234", ecode3);
+		System.out.println(matches3);		
 
 		// 
 		String mail = "test@gmail.com";

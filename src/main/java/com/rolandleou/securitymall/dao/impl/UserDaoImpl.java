@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.rolandleou.securitymall.dao.UserDao;
+import com.rolandleou.securitymall.dto.UserLoginRequest;
 import com.rolandleou.securitymall.dto.UserRegisterRequest;
 import com.rolandleou.securitymall.model.User;
 import com.rolandleou.securitymall.rowmapper.UserRowMapper;
@@ -93,6 +94,23 @@ public class UserDaoImpl implements UserDao {
 			return null;			
 		}
 
+	}
+
+	@Override
+	public User getUserByUserName(UserLoginRequest userLoginRequest) {
+		String sql = "SELECT user_id, username, password, email, role, enabled, created_date, "
+				+ "last_modified_date FROM user WHERE userName = :userName";
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("userName", userLoginRequest.getUserName());
+		
+		List<User> userList = namedParameterJdbcTemplate.query(sql, map, new UserRowMapper());
+		
+		if (userList.size() > 0) {
+			return userList.get(0);
+		} else {
+			return null;			
+		}
 	}
 
 }
