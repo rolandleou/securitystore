@@ -30,6 +30,8 @@ public class ProductController {
 
 	@Autowired
 	private ProductService productService;
+	
+	
     @GetMapping("/products")
     public ResponseEntity<Page<Product>> getProducts(
 			// filtering 查詢條件
@@ -64,6 +66,7 @@ public class ProductController {
         
         return ResponseEntity.status(HttpStatus.OK).body(page);
     }
+    
 	@GetMapping("/products/{productId}")
 	public ResponseEntity<Product> getProduct(@PathVariable Integer productId) {
 		
