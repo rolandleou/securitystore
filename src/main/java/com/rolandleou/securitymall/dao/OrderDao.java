@@ -2,6 +2,7 @@ package com.rolandleou.securitymall.dao;
 
 import java.util.List;
 
+import com.rolandleou.securitymall.dto.OrderQueryParams;
 import com.rolandleou.securitymall.model.Order;
 import com.rolandleou.securitymall.model.OrderItem;
 
@@ -15,4 +16,7 @@ public interface OrderDao {
 	
 	List<OrderItem> getOrderItemsByOrderId(Integer orderId);
 	
+	List<Order> getOrders(OrderQueryParams orderQueryParams);
+	
+	Integer countOrder(OrderQueryParams orderQueryParams);
 }

@@ -19,6 +19,10 @@ public class OrderItemRowMapper implements RowMapper {
 		orderItem.setQuantity(rs.getInt("quantity"));
 		orderItem.setAmount(rs.getInt("amount"));
 		
+		// get info from product database table use 'LEFT JOIN'
+		orderItem.setProductName(rs.getString("product_name"));
+		orderItem.setImageUrl(rs.getString("image_url"));
+		
 		return orderItem;
 	}
 
